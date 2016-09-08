@@ -11,7 +11,7 @@ import feedparser
 from PIL import Image, ImageTk
 
 ip = '<IP>'
-country_code = 'us'
+country_code = None
 weather_api_token = '<TOKEN>'
 
 
@@ -173,8 +173,10 @@ class News(Frame):
             # remove all children
             for widget in self.headlinesContainer.winfo_children():
                 widget.destroy()
-
-            headlines_url = "https://news.google.com/news?ned=%s&output=rss" % country_code
+            if country_code == None:
+                headlines_url = "https://news.google.com/news?ned=us&output=rss"
+            else:
+                headlines_url = "https://news.google.com/news?ned=%s&output=rss" % country_code
             feed = feedparser.parse(headlines_url)
 
             for post in feed.entries[0:5]:
